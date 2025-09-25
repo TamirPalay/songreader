@@ -8,7 +8,8 @@ A simple React + NestJS application to upload a CSV file of songs, store them in
 - Alternating row colors and hover effects
 - Responsive design
 - Built with React, NestJS, TypeScript, and PostgreSQL
-
+- Fully Dockerized for easy setup
+  
 ## Getting Started
 
 ### Prerequisites
@@ -16,12 +17,19 @@ A simple React + NestJS application to upload a CSV file of songs, store them in
 - Docker & Docker-Compose
 
 ### Installation
-1. Clone the repo
-2. `cd backend` and `npm install`
-3. `cd frontend` and `npm install`
-4. Run `docker-compose up` to start database
-5. Start backend: `npm run start:dev`  
-6. Start frontend: `npm start`
+1. git clone https://github.com/TamirPalay/songreader.git
+      cd songreader
+2. Install dependencies:
+     cd backend && npm install
+     cd ../frontend && npm install
+3. Start the database with Docker:
+      docker-compose up
+4. Start the backend (NestJS):
+    cd backend
+    npm run start:dev
+5. Start frontend (React):
+    cd frontend
+    npm start
 
 ## Usage
 1. Open the frontend at `http://localhost:3000`
