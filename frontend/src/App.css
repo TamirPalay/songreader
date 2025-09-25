@@ -4,20 +4,24 @@ html, body {
   height: 100%;
   font-family: Arial, sans-serif;
   background-color: #f7f7f7;
+  display: block !important; /* override index.css flexbox */
+  place-items: unset !important; /* override index.css centering */
+}
+
+#root {
+  display: block; /* ensure root div is also block */
 }
 
 .page-container {
-  display: flex;
-  justify-content: center; /* horizontal center */
-  align-items: center;     /* vertical center */
   min-height: 100vh;
-  padding: 1rem;
+  padding: 2rem 1rem;
   box-sizing: border-box;
 }
 
 .container {
   width: 100%;
   max-width: 900px;
+  margin: 0 auto; /* center horizontally */
   padding: 2rem;
   background-color: #fff;
   border-radius: 12px;
@@ -60,13 +64,12 @@ button:disabled {
 
 table {
   width: 100%;       /* take full width of container */
-  max-width: 900px;  /* don't grow too wide */
   border-collapse: collapse;
-  margin: 0 auto;    /* horizontally center table */
+  margin-top: 1rem;  /* add some space above the table */
 }
 
 th, td {
-  padding: 10px 12px;
+  padding: 12px 16px;  /* increase padding for less squished feeling */
   border: 1px solid #ddd;
   text-align: center;
 }
