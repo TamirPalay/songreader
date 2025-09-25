@@ -19,6 +19,7 @@ function App() {
   const [songs, setSongs] = useState<Song[]>([]);
   const [loading, setLoading] = useState(false);
   const [sortConfig, setSortConfig] = useState<SortConfig | null>({ key: "band", direction: "asc" });
+  const [message, setMessage] = useState<{ text: string; type: "success" | "error" } | null>(null);
 
   const API = "http://localhost:3000";
 
@@ -31,13 +32,11 @@ function App() {
       setLoading(true);
       const res = await axios.get(`${API}/songs`);
       let data: Song[] = res.data;
-      if (sortConfig) {
-        data = sortSongs(data, sortConfig);
-      }
+      if (sortConfig) data = sortSongs(data, sortConfig);
       setSongs(data);
     } catch (err) {
       console.error(err);
-      alert("Failed to fetch songs");
+      setMessage({ text: "Failed to fetch songs", type: "error" });
     } finally {
       setLoading(false);
     }
@@ -56,9 +55,11 @@ function App() {
         headers: { "Content-Type": "multipart/form-data" },
       });
       await fetchSongs();
+      setMessage({ text: "Upload successful! Table updated.", type: "success" });
+      setFile(null);
     } catch (err) {
       console.error(err);
-      alert("Upload failed");
+      setMessage({ text: "Upload failed, please try again.", type: "error" });
     } finally {
       setLoading(false);
     }
@@ -76,9 +77,7 @@ function App() {
 
   const handleSort = (key: keyof Song) => {
     let direction: "asc" | "desc" = "asc";
-    if (sortConfig?.key === key && sortConfig.direction === "asc") {
-      direction = "desc";
-    }
+    if (sortConfig?.key === key && sortConfig.direction === "asc") direction = "desc";
     setSortConfig({ key, direction });
     setSongs(sortSongs(songs, { key, direction }));
   };
@@ -92,6 +91,9 @@ function App() {
     <div className="page-container">
       <div className="container">
         <h1>🎵 Song CSV Importer</h1>
+        <h2>Upload your CSV file and view songs sorted by band name, title or year!</h2>
+
+        {message && <div className={`message ${message.type}`}>{message.text}</div>}
 
         <form onSubmit={handleUpload}>
           <input
@@ -112,17 +114,17 @@ function App() {
         <table>
           <thead>
             <tr>
-              <th onClick={() => handleSort("band")} className={getSortClass("band")}>Band</th>
-              <th onClick={() => handleSort("title")} className={getSortClass("title")}>Title</th>
-              <th onClick={() => handleSort("year")} className={getSortClass("year")}>Year</th>
+              <th onClick={() => handleSort("band")} className={getSortClass("band")} data-label="Band">Band</th>
+              <th onClick={() => handleSort("title")} className={getSortClass("title")} data-label="Title">Title</th>
+              <th onClick={() => handleSort("year")} className={getSortClass("year")} data-label="Year">Year</th>
             </tr>
           </thead>
           <tbody>
             {songs.map((s) => (
               <tr key={s.id}>
-                <td>{s.band}</td>
-                <td>{s.title}</td>
-                <td>{s.year || "-"}</td>
+                <td data-label="Band">{s.band}</td>
+                <td data-label="Title">{s.title}</td>
+                <td data-label="Year">{s.year || "-"}</td>
               </tr>
             ))}
           </tbody>

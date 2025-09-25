@@ -17,7 +17,8 @@ export class SongService {
       columns: true, 
       delimiter: ';' 
     });
-
+    // ensure each upload replaces previous data
+  await this.repo.clear();
     const songs = records.map((r) => {
       const song = new Song();
       song.title = r['Song Name']?.toLowerCase();

@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
-@Entity()
+@Entity('songs')
+@Unique(['band', 'title', 'year']) //ensures uniqueness in the db
 export class Song {
   @PrimaryGeneratedColumn()
   id: number;
