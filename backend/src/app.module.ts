@@ -1,7 +1,10 @@
-import { Module } from '@nestjs/common';
+import { Module, OnModuleInit } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { SongModule } from './song/song.module';
+import { Song } from './song/song.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Module({
   imports: [
@@ -16,7 +19,18 @@ import { SongModule } from './song/song.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
+    TypeOrmModule.forFeature([Song]),   // ✅ add this
     SongModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements OnModuleInit {
+  constructor(
+    @InjectRepository(Song)
+    private readonly songRepo: Repository<Song>,
+  ) {}
+
+  async onModuleInit() {
+    await this.songRepo.clear();
+    console.log('✅ Songs table cleared on startup');
+  }
+}
