@@ -23,7 +23,7 @@ A simple React + NestJS application to upload a CSV file of songs, store them in
      cd backend && npm install
      cd ../frontend && npm install
 3. Start the database with Docker:
-      docker-compose up
+      docker-compose up. Ensure Docker Desktop or an Equivalent program is running
 4. Start the backend (NestJS):
     cd backend
     npm run start:dev
