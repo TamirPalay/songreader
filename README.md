@@ -29,7 +29,7 @@ A simple React + NestJS application to upload a CSV file of songs, store them in
     npm run start:dev
 5. Start frontend (React):
     cd frontend
-    npm start
+    npm start or npm run dev
 
 ## Usage
 1. Open the frontend at `http://localhost:3000`
